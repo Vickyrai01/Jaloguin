@@ -1,0 +1,120 @@
+@startuml
+abstract class Asustador{
+
+  asustarA(unaPersona)
+  puedeAsustarA(unaPersona)
+  {abstract}recibirCaramelosDe(unaPersona)
+}
+
+class Ninio extends Asustador{
+    elementosTerrorificos
+    actitud
+    caramelos
+    salud
+    --
+    caramelos()
+    elementosTerrorificos()
+    capacidadDeSusto()
+    sustosDeSusElementos()
+    tieneMasDeTantosCaramelos(unaCantidad) 
+    recibirCaramelosDe(unaPersona) 
+    comer(unosCaramelos)
+    validarCantidadDeCaramelos(unosCaramelos)
+    empacharse()
+    ponerseEnCama()
+    DejarDeAsustar()
+    perderActitud()
+}
+class LegionDelTerror extends Asustador{
+    integrantes
+    --
+    capacidadDeSusto()
+    caramelos()
+    lider() 
+    recibirCaramelosDe(unaPersona)
+    validarMiembros(unosMiembros)
+}
+
+class Adulto{
+    ninosQueIntentaronDarSusto 
+    --
+    esAsustadoPor(unAsustador)
+    caramelosPara(unAsustador)
+    tolerancia()
+}
+
+class Anciano extends Adulto{
+    esAsustadoPor(unAsustador)
+    caramelosPara(unAsustador)
+}
+object adultoNecio{
+    esAsustadoPor(unAsustador)
+}
+
+interface Persona{
+    --
+    esAsustadoPor(unAsustador)
+    caramelosPara(unAsustador)
+}
+
+object maquillaje{
+    method sustoGenerado() 
+}
+
+object trajeTerrorifico {
+    sustoGenerado()
+}
+
+object trajeTierno{
+    sustoGenerado() 
+}
+
+interface ElementoTerrorifico{
+    --
+    sustoGenerado()
+}
+''maquillaje .u.|> ElementoTerrorifico
+ElementoTerrorifico <|.u. maquillaje
+ElementoTerrorifico <|.u. trajeTerrorifico
+ElementoTerrorifico <|.u. trajeTierno
+
+Adulto .u.|> Persona
+adultoNecio .u.|> Persona
+Asustador .> Persona
+Persona .>  Asustador
+''LegionDelTerror ->"*" Ninio
+Ninio "*"<- LegionDelTerror
+Ninio -u->"*" ElementoTerrorifico
+
+class Barrio {
+    habitantes
+    --
+    niniosConMasCaramelos()
+    niniosOrdenadosSegunCantDeCaramelos()
+    elementosDeNiniosDulceros()
+    niniosDulceros()
+    conseguirElementosDe(unosNinios)
+}
+Barrio -u->"*" Ninio
+
+class Salud{
+    method comer(unosCaramelos, unaPersona)
+    consecuenciasPorComerMucho(unaPersona)
+}
+object sano{
+    consecuenciasPorComerMucho(unaPersona)
+}
+object empachado{
+    consecuenciasPorComerMucho(unaPersona)
+}
+object encamado{
+    comer(unosCaramelos, unaPersona)
+}
+
+sano -u-|> Salud
+empachado -u-|> Salud
+encamado -u-|> Salud
+Salud <- Ninio
+Salud .> Ninio
+
+@enduml
